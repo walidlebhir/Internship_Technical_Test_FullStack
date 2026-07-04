@@ -1,0 +1,15 @@
+{
+  "title": "Feature Evaluation",
+  "evaluate": "Evaluate",
+  "flag": "Feature Flag",
+  "context": "Evaluation Context",
+  "result": "Evaluation Result",
+  "match": "Match",
+  "noMatch": "No Match",
+  "loading": "Evaluating...",
+  "error": "Evaluation failed",
+  "attributes": "Attributes",
+  "addAttribute": "Add Attribute",
+  "key": "Key",
+  "value": "Value"
+}

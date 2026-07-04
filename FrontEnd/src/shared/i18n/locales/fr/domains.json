@@ -1,0 +1,15 @@
+{
+  "title": "Domaines",
+  "create": "Créer un domaine",
+  "edit": "Modifier le domaine",
+  "delete": "Supprimer le domaine",
+  "name": "Nom du domaine",
+  "description": "Description",
+  "features": "Fonctionnalités",
+  "noDomains": "Aucun domaine trouvé",
+  "createFirst": "Créez votre premier domaine",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce domaine ?",
+  "created": "Domaine créé avec succès",
+  "updated": "Domaine mis à jour avec succès",
+  "deleted": "Domaine supprimé avec succès"
+}

@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: feature-flag-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: feature_flag_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: walid123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

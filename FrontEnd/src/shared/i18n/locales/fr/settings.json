@@ -1,0 +1,9 @@
+{
+  "title": "Paramètres",
+  "profile": "Profil",
+  "security": "Sécurité",
+  "team": "Équipe",
+  "webhooks": "Webhooks",
+  "saved": "Paramètres enregistrés avec succès",
+  "error": "Échec de l'enregistrement des paramètres"
+}

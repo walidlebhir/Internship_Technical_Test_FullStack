@@ -1,0 +1,9 @@
+{
+  "title": "Tableau de bord",
+  "activeFlags": "Flags actifs",
+  "evaluationsToday": "Évaluations aujourd'hui",
+  "flagHealth": "Santé des flags",
+  "recentChanges": "Changements récents",
+  "loading": "Chargement du tableau de bord...",
+  "error": "Échec du chargement du tableau de bord"
+}

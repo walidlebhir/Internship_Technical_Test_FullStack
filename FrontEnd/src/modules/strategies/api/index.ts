@@ -1,0 +1,1 @@
+export { strategyClient } from './strategyClient'

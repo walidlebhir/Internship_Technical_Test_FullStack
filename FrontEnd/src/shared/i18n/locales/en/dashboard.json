@@ -1,0 +1,9 @@
+{
+  "title": "Dashboard",
+  "activeFlags": "Active Flags",
+  "evaluationsToday": "Evaluations Today",
+  "flagHealth": "Flag Health",
+  "recentChanges": "Recent Changes",
+  "loading": "Loading dashboard...",
+  "error": "Failed to load dashboard"
+}

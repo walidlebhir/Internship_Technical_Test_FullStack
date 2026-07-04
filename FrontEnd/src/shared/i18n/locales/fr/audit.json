@@ -1,0 +1,12 @@
+{
+  "title": "Journal d'audit",
+  "noEntries": "Aucune entrée d'audit trouvée",
+  "action": "Action",
+  "actor": "Acteur",
+  "resource": "Ressource",
+  "detail": "Détail",
+  "timestamp": "Date",
+  "filterByDate": "Filtrer par date",
+  "filterByAction": "Filtrer par action",
+  "filterByActor": "Filtrer par acteur"
+}

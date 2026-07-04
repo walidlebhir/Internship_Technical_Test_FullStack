@@ -1,0 +1,21 @@
+{
+  "title": "Fonctionnalités",
+  "create": "Créer une fonctionnalité",
+  "edit": "Modifier la fonctionnalité",
+  "delete": "Supprimer la fonctionnalité",
+  "name": "Nom de la fonctionnalité",
+  "key": "Clé de la fonctionnalité",
+  "description": "Description",
+  "domain": "Domaine",
+  "status": "Statut",
+  "toggle": "Basculer",
+  "enabled": "Activé",
+  "disabled": "Désactivé",
+  "noFeatures": "Aucune fonctionnalité trouvée",
+  "createFirst": "Créez votre première fonctionnalité",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette fonctionnalité ?",
+  "created": "Fonctionnalité créée avec succès",
+  "updated": "Fonctionnalité mise à jour avec succès",
+  "deleted": "Fonctionnalité supprimée avec succès",
+  "toggled": "Statut de la fonctionnalité modifié"
+}

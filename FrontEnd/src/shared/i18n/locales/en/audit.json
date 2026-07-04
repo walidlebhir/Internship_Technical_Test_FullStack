@@ -1,0 +1,12 @@
+{
+  "title": "Audit Log",
+  "noEntries": "No audit entries found",
+  "action": "Action",
+  "actor": "Actor",
+  "resource": "Resource",
+  "detail": "Detail",
+  "timestamp": "Timestamp",
+  "filterByDate": "Filter by date",
+  "filterByAction": "Filter by action",
+  "filterByActor": "Filter by actor"
+}

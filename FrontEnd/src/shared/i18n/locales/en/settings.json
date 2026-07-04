@@ -1,0 +1,9 @@
+{
+  "title": "Settings",
+  "profile": "Profile",
+  "security": "Security",
+  "team": "Team",
+  "webhooks": "Webhooks",
+  "saved": "Settings saved successfully",
+  "error": "Failed to save settings"
+}

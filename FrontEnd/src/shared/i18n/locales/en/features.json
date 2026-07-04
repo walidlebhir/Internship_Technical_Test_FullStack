@@ -1,0 +1,21 @@
+{
+  "title": "Features",
+  "create": "Create Feature",
+  "edit": "Edit Feature",
+  "delete": "Delete Feature",
+  "name": "Feature Name",
+  "key": "Feature Key",
+  "description": "Description",
+  "domain": "Domain",
+  "status": "Status",
+  "toggle": "Toggle",
+  "enabled": "Enabled",
+  "disabled": "Disabled",
+  "noFeatures": "No features found",
+  "createFirst": "Create your first feature",
+  "confirmDelete": "Are you sure you want to delete this feature?",
+  "created": "Feature created successfully",
+  "updated": "Feature updated successfully",
+  "deleted": "Feature deleted successfully",
+  "toggled": "Feature status changed"
+}

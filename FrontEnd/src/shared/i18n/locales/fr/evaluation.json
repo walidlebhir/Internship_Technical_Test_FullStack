@@ -1,0 +1,15 @@
+{
+  "title": "Évaluation de fonctionnalité",
+  "evaluate": "Évaluer",
+  "flag": "Feature Flag",
+  "context": "Contexte d'évaluation",
+  "result": "Résultat de l'évaluation",
+  "match": "Correspondance",
+  "noMatch": "Aucune correspondance",
+  "loading": "Évaluation en cours...",
+  "error": "L'évaluation a échoué",
+  "attributes": "Attributs",
+  "addAttribute": "Ajouter un attribut",
+  "key": "Clé",
+  "value": "Valeur"
+}

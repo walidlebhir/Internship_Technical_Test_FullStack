@@ -1,0 +1,16 @@
+{
+  "title": "Stratégies",
+  "create": "Créer une stratégie",
+  "edit": "Modifier la stratégie",
+  "delete": "Supprimer la stratégie",
+  "name": "Nom de la stratégie",
+  "type": "Type",
+  "priority": "Priorité",
+  "conditions": "Conditions",
+  "noStrategies": "Aucune stratégie trouvée",
+  "createFirst": "Créez votre première stratégie",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette stratégie ?",
+  "created": "Stratégie créée avec succès",
+  "updated": "Stratégie mise à jour avec succès",
+  "deleted": "Stratégie supprimée avec succès"
+}

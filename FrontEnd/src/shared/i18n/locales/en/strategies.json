@@ -1,0 +1,16 @@
+{
+  "title": "Strategies",
+  "create": "Create Strategy",
+  "edit": "Edit Strategy",
+  "delete": "Delete Strategy",
+  "name": "Strategy Name",
+  "type": "Type",
+  "priority": "Priority",
+  "conditions": "Conditions",
+  "noStrategies": "No strategies found",
+  "createFirst": "Create your first strategy",
+  "confirmDelete": "Are you sure you want to delete this strategy?",
+  "created": "Strategy created successfully",
+  "updated": "Strategy updated successfully",
+  "deleted": "Strategy deleted successfully"
+}
