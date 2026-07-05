@@ -19,12 +19,14 @@ src/main/java/com/backend/feature_flag_platform/
 │   ├── DomainController.java              # CRUD /api/v1/domains
 │   ├── FeaturController.java              # CRUD /api/v1/features
 │   ├── EvaluationController.java          # GET /api/v1/features/{key}/evaluate
-│   └── StrategyController.java            # CRUD /api/v1/strategies
+│   ├── StrategyController.java            # CRUD /api/v1/strategies
+│   └── AuditController.java               # GET /api/v1/audit
 ├── DTO/
 │   ├── DomainRequest.java / DomainResponse.java
 │   ├── FeatureRequest.java / FeatureResponse.java
 │   ├── StrategyRequest.java / StrategyResponse.java
-│   └── EvaluationResponse.java
+│   ├── EvaluationResponse.java
+│   └── AuditResponse.java
 ├── Entity/
 │   ├── Domain.java
 │   ├── Feature.java
@@ -37,14 +39,16 @@ src/main/java/com/backend/feature_flag_platform/
 ├── Repository/
 │   ├── DomainRepository.java
 │   ├── FeatureRepository.java
-│   └── StrategyRepository.java
+│   ├── StrategyRepository.java
+│   └── AuditRepository.java               # findAllByOrderByTimestampDesc, findByEntityTypeOrderByTimestampDesc
 ├── Service/
 │   ├── DomainService.java
 │   ├── FeatureService.java
 │   ├── FeatureEvaluationService.java      # Cacheable evaluation orchestrator
 │   ├── StrategyService.java
-│   └── RolloutService.java                # Percentage bucket hashing
-├── evaluation/
+│   ├── RolloutService.java                # Percentage bucket hashing
+│   └── AuditService.java                  # Record & query audit entries (used by AuditAspect)
+├── evaluation_core/                       # NOT "evaluation/" — actual package name
 │   ├── StrategyEvaluator.java             # Interface — Strategy Pattern contract
 │   ├── EvaluationContext.java             # Immutable record (featureKey, userId, env, now)
 │   ├── ContextProvider.java               # Interface — replaceable context factory
@@ -57,7 +61,8 @@ src/main/java/com/backend/feature_flag_platform/
 ├── MappedStructer/
 │   ├── DomainMapping.java
 │   ├── FeatureMapping.java
-│   └── StrategyMapping.java
+│   ├── StrategyMapping.java
+│   └── AuditMapping.java
 └── exception/
     ├── ResourceNotFoundException.java
     ├── BadRequestException.java
@@ -98,9 +103,9 @@ src/main/java/com/backend/feature_flag_platform/
 - **Review** : Clean mapping. The `config` field stores raw JSON which each evaluator parses independently. The `@Lob` annotation is appropriate for potentially large JSON configs.
 
 #### `AuditEntry.java`
-- **Purpose** : Scaffolding for future auditing (entity not yet referenced in any service)
+- **Purpose** : Audit log entity — records every CRUD operation via AOP
 - **Fields** : `timestamp`, `action` (AuditAction), `entityType` (EntityType), `entityId`, `who`
-- **Review** : Well-structured but unused. Ready for when auditing is required.
+- **Review** : Actively used by `AuditService` (persistence) and `AuditAspect` (automatic AOP recording). Timestamps auto-set via `@PrePersist`.
 
 #### `StrategyType.java` (Enum)
 ```java
@@ -115,12 +120,13 @@ PERCENTAGE, ALLOWLIST, ENVIRONMENT, DATE
 All three repositories extend `JpaRepository` with `@Repository`:
 
 | Repository | Entity Type | ID Type | Custom Methods |
-|---|---|---|---|
+|---|---|---|---|---|
 | `DomainRepository` | `Domain` | `UUID` | `findByName(String)` |
 | `FeatureRepository` | `Feature` | `Long` | `findByKey(String)` → `Optional<Feature>` |
 | `StrategyRepository` | `Strategy` | `Long` | `findByFeatureId(Long)`, `findByFeatureIdAndActiveTrue(Long)` |
+| `AuditRepository` | `AuditEntry` | `Long` | `findAllByOrderByTimestampDesc(Pageable)`, `findByEntityTypeOrderByTimestampDesc(EntityType, Pageable)` |
 
-**Review** : Clean, minimal. The `findByFeatureIdAndActiveTrue` method is the key query used by the evaluation engine to retrieve only active strategies.
+**Review** : Clean, minimal. The `findByFeatureIdAndActiveTrue` method is the key query used by the evaluation engine to retrieve only active strategies. `AuditRepository` supports paginated audit trail queries.
 
 ---
 
@@ -137,8 +143,9 @@ All DTOs are Java 16+ `record` types (immutable by design) :
 | `StrategyRequest` | Input | `type` (@NotNull), `config` (@NotNull), `id_feature` (@NotNull) |
 | `StrategyResponse` | Output | `id`, `type`, `config`, `active`, `featureId` |
 | `EvaluationResponse` | Output | `featureKey`, `userId`, `enabled` |
+| `AuditResponse` | Output | `id`, `timestamp`, `action`, `entityType`, `entityId`, `who` |
 
-**Review** : Consistent use of Java records. Validation annotations on request DTOs. The `EvaluationResponse` is returned by the evaluation endpoint with a clean structure.
+**Review** : Consistent use of Java records. Validation annotations on request DTOs.
 
 ---
 
@@ -149,6 +156,7 @@ Three manual mapper classes (not MapStruct, despite the package name) :
 - `DomainMapping.mapDomainToResponse(Domain)` → `DomainResponse`
 - `FeatureMapping.mapFeatureToResponse(Feature)` → `FeatureResponse`
 - `StrategyMapping.mapStrategyToResponse(Strategy)` → `StrategyResponse`
+- `AuditMapping.mapAuditToResponse(AuditEntry)` → `AuditResponse`
 
 **Review** : Simple, no magic. Each mapper exposes only relevant fields (e.g., `feature.getDomain().getId()` instead of the full domain object). The package name `MappedStructer` is a minor typo of "MapStruct".
 
@@ -164,7 +172,7 @@ Three manual mapper classes (not MapStruct, despite the package name) :
 #### `FeatureService`
 - **Methods** : `createFeature`, `getFeatureById`, `getAllFeatures`, `updateFeature`, `deleteFeature`, `enableFeature`, `disableFeature`
 - **Cache** : Calls `featureEvaluationService.evictAllEvaluationCaches()` on `updateFeature`, `deleteFeature`, `enableFeature`, `disableFeature`
-- **Review** : Circular dependency alert — `FeatureService` depends on `FeatureEvaluationService`, and `FeatureEvaluationService` depends on `FeatureEvaluationService`... wait, no. `FeatureEvaluationService` depends on `FeatureRepository` and `EvaluationEngine`, not `FeatureService`. So there's no circular dependency. The cache eviction calls ensure data consistency.
+- **Review** : No circular dependency — `FeatureService` depends on `FeatureEvaluationService` (for cache eviction), but `FeatureEvaluationService` only depends on `FeatureRepository` + `EvaluationEngine` (not `FeatureService`). The cache eviction calls ensure data consistency.
 
 #### `StrategyService`
 - **Methods** : `createStrategy`, `getStrategyById`, `getAllStrategies`, `getStrategiesByFeatureId`, `updateStrategy`, `deleteStrategy`, `enableStrategy`, `disableStrategy`
@@ -189,6 +197,11 @@ Three manual mapper classes (not MapStruct, despite the package name) :
   8. Returns `EvaluationResponse`
 - **Method `evictAllEvaluationCaches()`** : `@CacheEvict(allEntries = true)`, called by `FeatureService` and `StrategyService` on mutations
 - **Review** : Clean separation of concerns. Private helper methods (`findFeatureOrThrow`, `isFeatureDisabled`, `buildOffResponse`) improve readability. Caching prevents repeated DB lookups for the same feature/user/environment combination.
+
+#### `AuditService`
+- **Methods** : `record(Action, EntityType, entityId, who)`, `findAll(Pageable)`, `findByEntityType(EntityType, Pageable)`
+- **Used by** : `AuditAspect` (AOP) — automatically records CRUD operations on Domain, Feature, Strategy services
+- **Review** : Clean service with paginated read queries. The `record()` method is `@Transactional` and called from the AOP aspect after successful mutations.
 
 #### `RolloutService`
 - **Method `isInRollout(userId, featureKey, percentage)`** :
@@ -324,6 +337,11 @@ public class EvaluationEngine {
   - `PATCH /strategies/{id}/enable`, `PATCH /strategies/{id}/disable`
   - `GET /features/{featureId}/strategies`
 - **Review** : Well-organized. The dual path structure (`/strategies` and `/features/{featureId}/strategies`) provides both global and scoped access.
+
+#### `AuditController`
+- **Base path** : `/api/v1/audit`
+- **Endpoints** : `GET` — paginated audit log, optional `entityType` filter
+- **Review** : Simple read-only controller backed by `AuditService`. Accepts `page`, `size`, `entityType` query params.
 
 ---
 
@@ -492,7 +510,7 @@ FeatureEvaluationService.evaluate("payment", "u123", "PROD")
 5. **Controller name typo**: Rename `FeaturController` → `FeatureController`
 
 ### Low Priority
-6. **AuditEntry integration** : Wire up `AuditEntry` to log evaluation requests
+6. ✅ **AuditEntry integration** : Already implemented — `AuditAspect` + `AuditService` record CRUD operations automatically
 7. **Redis/Caffeine cache** : Replace `ConcurrentMapCacheManager` with a distributed cache for multi-instance deployments
 8. **API versioning** : Add version prefix (e.g., `/api/v2/...`) for future changes
 9. **OpenAPI/Swagger documentation** : Add `@Operation` annotations to controllers for better API docs

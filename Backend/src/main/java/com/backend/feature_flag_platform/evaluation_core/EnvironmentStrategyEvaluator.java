@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Evaluates an ENVIRONMENT strategy.
- * <p>Config format: {@code {"environments": ["production", "staging"]}}
- * <br>Logic: the feature is ON if the current environment matches one of the listed values.</p>
+ * Config format: {@code {"environments": ["production", "staging"]}}
+ * Logic: the feature is ON if the current environment matches one of the listed values.
  */
 @Component
 public class EnvironmentStrategyEvaluator implements StrategyEvaluator {

@@ -8,11 +8,6 @@ import java.util.Map;
 
 /**
  * Default implementation of {@link ContextProvider}.
- * <p>
- * Builds an {@link EvaluationContext} with {@link LocalDateTime#now()} as the
- * evaluation timestamp and copies any extra attributes into the context.
- * This implementation is replaceable by providing another {@code @Component}
- * that implements {@link ContextProvider}.
  */
 @Component
 public class DefaultContextProvider implements ContextProvider {

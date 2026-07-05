@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * Evaluates an ALLOWLIST strategy.
- * <p>Config format: {@code {"userIds": ["alice", "bob"]}}
- * <br>Logic: the feature is ON if the current user ID appears in the list.</p>
  */
 @Component
 public class AllowListStrategyEvaluator implements StrategyEvaluator {

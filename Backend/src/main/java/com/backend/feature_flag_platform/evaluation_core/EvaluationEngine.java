@@ -9,15 +9,6 @@ import java.util.List;
 
 /**
  * Core engine that evaluates a list of active strategies against a runtime context.
- * <p>Rules:
- * <ul>
- *   <li>If no active strategies exist → {@code true} (feature is ON)</li>
- *   <li>All active strategies must evaluate to {@code true} (AND logic)</li>
- *   <li>If any strategy evaluates to {@code false} → {@code false} (feature is OFF)</li>
- *   <li>If no evaluator is registered for a strategy type → {@code false}</li>
- * </ul>
- * The engine never switches or branches on {@code StrategyType};
- * it always delegates to the {@link StrategyRegistry}.</p>
  */
 @Component
 public class EvaluationEngine {
@@ -32,10 +23,6 @@ public class EvaluationEngine {
 
     /**
      * Evaluates all active strategies using AND logic.
-     *
-     * @param activeStrategies list of active strategies for a feature
-     * @param context          the runtime evaluation context
-     * @return {@code true} if the feature should be ON, {@code false} otherwise
      */
     public boolean evaluate(List<Strategy> activeStrategies, EvaluationContext context) {
         if (activeStrategies == null || activeStrategies.isEmpty()) {

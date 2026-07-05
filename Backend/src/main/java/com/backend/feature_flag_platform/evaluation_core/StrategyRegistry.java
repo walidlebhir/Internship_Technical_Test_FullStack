@@ -12,9 +12,9 @@ import java.util.Map;
 
 /**
  * Registry that maps each {@link StrategyType} to its corresponding {@link StrategyEvaluator}.
- * <p>Automatically collects all Spring-managed {@code StrategyEvaluator} beans at startup
+ * Automatically collects all Spring-managed {@code StrategyEvaluator} beans at startup
  * and organises them by their {@link StrategyEvaluator#supportedType()}.
- * This is the only place where StrategyType is mapped — the engine never switches on type.</p>
+ * This is the only place where StrategyType is mapped — the engine never switches on type.
  */
 @Component
 public class StrategyRegistry {

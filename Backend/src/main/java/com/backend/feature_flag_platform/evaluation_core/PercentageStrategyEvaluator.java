@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * Evaluates a PERCENTAGE strategy.
- * <p>Config format: {@code {"percentage": 50}}
- * <br>Logic: delegates to {@link RolloutService#isInRollout(String, String, int)}
- * which consistently maps a userId to a bucket 0‑99.</p>
  */
 @Component
 public class PercentageStrategyEvaluator implements StrategyEvaluator {

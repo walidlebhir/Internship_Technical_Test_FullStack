@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for the audit trail.
- * <p>
- * Exposes a paginated, filterable endpoint to browse historical
- * audit entries across all entity types.
- * </p>
+
  */
 @RestController
 @RequestMapping("/api/v1/audit")
@@ -29,9 +26,6 @@ public class AuditController {
 
     /**
      * Retrieves audit trail entries with pagination and optional type filtering.
-     * <p>
-     * Results are always sorted by timestamp descending (most recent first).
-     *
      * @param entityType optional filter by entity type (DOMAIN, FEATURE, STRATEGY)
      * @param pageable   pagination parameters (default: page 0, size 20, sort by timestamp desc)
      * @return a paginated list of {@link AuditResponse}

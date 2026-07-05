@@ -5,12 +5,7 @@ import com.backend.feature_flag_platform.Service.FeatureEvaluationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * REST controller dedicated to feature flag evaluation.
- * <p>
- * Separated from the CRUD controller to respect the Single Responsibility Principle.
- * </p>
- */
+
 @RestController
 @RequestMapping("/api/v1/features")
 public class EvaluationController {
@@ -22,10 +17,6 @@ public class EvaluationController {
     }
 
     /**
-     * Evaluates whether a feature flag is ON or OFF for a given user and environment.
-     * <p>
-     * The evaluation applies all active strategies attached to the feature using AND logic.
-     *
      * @param key         the unique key of the feature to evaluate
      * @param userId      the identifier of the requesting user (optional)
      * @param environment the current deployment environment (optional)

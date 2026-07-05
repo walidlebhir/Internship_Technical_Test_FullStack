@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Maps an {@link AuditEntry} entity to an {@link AuditResponse} DTO.
- * <p>
- * Follows the same pattern as the other mapping classes in this package.
+
  */
 @Component
 public class AuditMapping {

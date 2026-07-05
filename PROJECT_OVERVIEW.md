@@ -4,8 +4,14 @@
 
 ```
 Projet_Nemo_test/
+├── PROJECT_OVERVIEW.md               # Ce fichier
+│
 ├── Backend/                          # Spring Boot 3.5.16 (Java 17)
 │   ├── pom.xml
+│   ├── HELP.md
+│   ├── codereview/
+│   │   ├── CODE_REVIEW.md
+│   │   └── EVALUATION_REVIEW.md
 │   └── src/main/java/com/backend/feature_flag_platform/
 │       ├── annotation/Audited.java
 │       ├── aspect/AuditAspect.java
@@ -18,15 +24,16 @@ Projet_Nemo_test/
 │       │   └── AuditController.java       # /api/v1/audit
 │       ├── DTO/ (request/response records)
 │       ├── Entity/ (Domain, Feature, Strategy, AuditEntry)
-│       ├── evaluation_core/ (strategy evaluation engine)
+│       ├── evaluation_core/ (strategy evaluation engine — Strategy Pattern)
 │       ├── exception/ (global handler + custom exceptions)
 │       ├── fundamentals/RolloutCalculator.java
-│       ├── MappedStructer/ (manual mapping components)
-│       ├── Repository/ (Spring Data JPA)
-│       └── Service/ (business logic layer)
+│       ├── MappedStructer/ (manual mapping components: Domain, Feature, Strategy, Audit)
+│       ├── Repository/ (Spring Data JPA — Domain, Feature, Strategy, Audit)
+│       └── Service/ (business logic layer — Domain, Feature, Strategy, Evaluation, Rollout, Audit)
 │
 ├── FrontEnd/                         # React 19 + Vite 8 + TypeScript 6
 │   ├── package.json
+│   ├── README.md
 │   ├── vite.config.ts                # Port 3000, proxy /api -> localhost:8081
 │   └── src/
 │       ├── app/
